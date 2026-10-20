@@ -1,0 +1,7 @@
+cadquery
+trimesh
+rtree
+numpy
+pydantic
+pyyaml
+pytest

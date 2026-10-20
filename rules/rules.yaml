@@ -1,0 +1,25 @@
+# PLACEHOLDER VALUES. Not reviewed by a jeweler; do not treat as manufacturing advice.
+# Change a value here and the tool's behavior changes with no code edit (SRS FR-03).
+verified_by_jeweler: false
+metals:
+  silver_925:
+    density_g_cm3: 10.36
+    min_wall_mm: 0.8
+    min_prong_diameter_mm: 0.8
+    min_band_thickness_mm: 1.2
+  gold_14k:
+    density_g_cm3: 13.0
+    min_wall_mm: 0.8
+    min_prong_diameter_mm: 0.8
+    min_band_thickness_mm: 1.2
+  gold_18k:
+    density_g_cm3: 15.5
+    min_wall_mm: 0.8
+    min_prong_diameter_mm: 0.8
+    min_band_thickness_mm: 1.2
+stone_shapes:
+  round:
+    size_range_mm: [3.0, 10.0]
+    prong_counts: [4, 6]
+tolerances:
+  stl_step_volume_pct: 0.5
