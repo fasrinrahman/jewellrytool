@@ -13,3 +13,17 @@ def load_rules(path=None) -> dict:
     if missing:
         raise ValueError(f"rules file is missing: {', '.join(missing)}")
     return rules
+
+
+DEFAULT_PRICES_PATH = Path(__file__).resolve().parents[2] / "rules" / "prices.yaml"
+PRICE_KEYS = ("currency", "source", "as_of", "metals")
+
+
+def load_prices(path=None) -> dict:
+    """Metal prices come from a config file that names its source and date (NFR-03)."""
+    with open(path or DEFAULT_PRICES_PATH, encoding="utf-8") as f:
+        prices = yaml.safe_load(f)
+    missing = [k for k in PRICE_KEYS if k not in prices]
+    if missing:
+        raise ValueError(f"prices file is missing: {', '.join(missing)}")
+    return prices

@@ -4,8 +4,8 @@ import cadquery as cq
 from .params import RingParams
 
 PAVILION_RATIO = 0.43      # round stone pavilion depth as a share of diameter (placeholder)
-COLLAR_FLOOR_MM = 0.8      # metal left under the stone seat
-COLLAR_WALL_MM = 0.6       # metal around the stone at the girdle
+COLLAR_FLOOR_MM = 1.0      # metal left under the stone seat
+COLLAR_WALL_MM = 1.0       # metal around the stone at the girdle (must stay above the min wall rule)
 HEAD_SINK_MM = 0.5         # head sinks into the band so the parts fuse
 
 
