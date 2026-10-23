@@ -1,0 +1,14 @@
+# PLACEHOLDER PRICES. These are not from a real price source; replace them before relying
+# on any cost figure. The source name and date are printed on every spec sheet (NFR-03).
+currency: USD
+source: "PLACEHOLDER - not a real price source"
+as_of: "2026-10-14"
+verified: false
+# Alloy price per gram: [low, high]
+metals:
+  silver_925:
+    price_per_gram: [0.8, 1.2]
+  gold_14k:
+    price_per_gram: [50.0, 70.0]
+  gold_18k:
+    price_per_gram: [65.0, 90.0]

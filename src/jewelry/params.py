@@ -14,3 +14,4 @@ class RingParams(BaseModel):
     stone_size_mm: float = Field(gt=0)
     prong_count: int = Field(gt=0)
     prong_diameter_mm: float = Field(gt=0)
+    finish: Literal["polished", "satin"] = "polished"  # listed on the spec sheet; no effect on geometry

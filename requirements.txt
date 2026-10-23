@@ -4,4 +4,6 @@ rtree
 numpy
 pydantic
 pyyaml
+pypdf
+reportlab
 pytest
