@@ -7,3 +7,6 @@ pyyaml
 pypdf
 reportlab
 pytest
+fastapi
+uvicorn
+httpx
