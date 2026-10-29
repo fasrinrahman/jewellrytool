@@ -2,11 +2,12 @@ import type { BuildResponse, RingParams, Rules, Sizes } from "../types";
 
 export const RULES: Rules = {
   verified_by_jeweler: false,
+  ring_size_range_mm: [14, 24],
   metals: {
-    silver_925: { density_g_cm3: 10.36, min_wall_mm: 0.8, min_prong_diameter_mm: 0.8, min_band_thickness_mm: 1.2, band_width_range_mm: [1.5, 8] },
-    gold_14k: { density_g_cm3: 13, min_wall_mm: 0.8, min_prong_diameter_mm: 0.8, min_band_thickness_mm: 1.2, band_width_range_mm: [1.5, 8] },
+    silver_925: { density_g_cm3: 10.36, min_wall_mm: 0.8, min_prong_diameter_mm: 0.8, min_band_thickness_mm: 1.2, band_width_range_mm: [1.5, 8], max_band_thickness_mm: 5, max_prong_diameter_mm: 2 },
+    gold_14k: { density_g_cm3: 13, min_wall_mm: 0.8, min_prong_diameter_mm: 0.8, min_band_thickness_mm: 1.2, band_width_range_mm: [1.5, 8], max_band_thickness_mm: 5, max_prong_diameter_mm: 2 },
   },
-  stone_shapes: { round: { size_range_mm: [3, 10], prong_counts: [4, 6] } },
+  stone_shapes: { round: { size_range_mm: [3, 10], prong_counts: [4, 6], max_prong_coverage: 0.35 } },
   tolerances: { stl_step_volume_pct: 0.5 },
 };
 

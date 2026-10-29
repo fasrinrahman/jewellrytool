@@ -53,6 +53,8 @@ def spec_sheet_data(p: RingParams, report: Report, n: DesignNumbers, rules: dict
             f"Weight uses a density of {n.density_g_cm3:g} g/cm3 for {_name(p.metal)}.",
             f"Prices: {n.price_source}, as of {n.price_as_of}."
             + ("" if n.prices_verified else " These prices have not been verified."),
+            "The cost range uses the finished weight. A jeweler needs more metal than that to cast the ring, "
+            "because some is lost in casting and finishing.",
             "Design rules reviewed by a jeweler: " + ("yes." if rules.get("verified_by_jeweler") else "no."),
             "This sheet supports the jeweler's decision. It does not replace a human check before casting.",
         ],

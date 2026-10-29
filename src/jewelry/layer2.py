@@ -32,12 +32,23 @@ def check_mesh(mesh, cad_volume_mm3: float, p: RingParams, rules: dict) -> list:
     if not mesh.is_watertight:
         out.append(CheckResult("L2-WATERTIGHT", 2, FAIL,
                    "The 3D model has holes or open edges, so a printer or caster could not turn it into a solid ring."))
+        out.append(CheckResult("L2-SINGLE-PIECE", 2, UNVERIFIED,
+                   "Whether the ring is one connected piece was not checked because the model has holes."))
         out.append(CheckResult("L2-WALL-THICKNESS", 2, UNVERIFIED,
                    "Wall thickness was not checked because the model has holes."))
         out.append(CheckResult("L2-VOLUME-MATCH", 2, UNVERIFIED,
                    "The weight and file consistency check was skipped because the model has holes."))
         return out
     out.append(CheckResult("L2-WATERTIGHT", 2, PASS, "The 3D model is a closed solid with no holes."))
+
+    # Two closed solids are each watertight, so a head floating free of the band needs its own check.
+    pieces = len(mesh.split(only_watertight=False))
+    if pieces == 1:
+        out.append(CheckResult("L2-SINGLE-PIECE", 2, PASS, "The ring is one connected piece."))
+    else:
+        out.append(CheckResult("L2-SINGLE-PIECE", 2, FAIL,
+                   f"The model is in {pieces} separate pieces, for example a stone head that is not attached "
+                   "to the band. It cannot be cast as one ring."))
 
     stats = wall_thickness_stats(mesh)
     if stats is None:

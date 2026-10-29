@@ -12,15 +12,22 @@ from .rules import load_rules
 
 
 def nearest_buildable(p: RingParams, rules: dict = None):
-    """Return (design that passes layer 1, list of changes made)."""
+    """Return (the nearest design that passes layer 1, list of net changes).
+
+    Fixes are applied and re-checked until nothing more can be fixed, because one fix (for example
+    thinner prongs) can change what another check needs. A problem with no safe fix, such as an
+    unknown metal, is left as it is and still fails layer 1."""
     rules = rules or load_rules()
-    changes = []
-    for r in check_parameters(p, rules):
-        if r.status == FAIL and r.fix:
-            changes.append({"field": r.fix["field"],
-                            "old": getattr(p, r.fix["field"]), "new": r.fix["value"]})
-            p = p.model_copy(update={r.fix["field"]: r.fix["value"]})
-    return p, changes
+    original = fixed = p
+    for _ in range(6):
+        fixes = [r.fix for r in check_parameters(fixed, rules) if r.status == FAIL and r.fix]
+        if not fixes:
+            break
+        for f in fixes:
+            fixed = fixed.model_copy(update={f["field"]: f["value"]})
+    changes = [{"field": f, "old": getattr(original, f), "new": getattr(fixed, f)}
+               for f in RingParams.model_fields if getattr(original, f) != getattr(fixed, f)]
+    return fixed, changes
 
 
 def validate(p: RingParams, rules: dict = None) -> Report:

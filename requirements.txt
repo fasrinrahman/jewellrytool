@@ -1,12 +1,13 @@
 cadquery
 trimesh
 rtree
+scipy
 numpy
 pydantic
 pyyaml
-pypdf
 reportlab
-pytest
 fastapi
 uvicorn
 httpx
+pytest
+pypdf

@@ -63,7 +63,15 @@ describe("api client", () => {
     await expect(fetchRules()).rejects.toMatchObject({ status: 0, message: expect.stringContaining("Could not reach") });
   });
 
-  it("handles a field-validation error list from the server", async () => {
+  it("names the field when the server rejects a value, without needing the value itself", async () => {
+    const detail = [{ loc: ["body", "band_thickness_mm"], msg: "Input should be less than or equal to 100", type: "less_than_equal" }];
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json({ detail }, 422)));
+    await expect(buildDesign(P)).rejects.toMatchObject({
+      message: "Band thickness is not a valid value. Input should be less than or equal to 100",
+    });
+  });
+
+  it("falls back to a general message for an unknown field", async () => {
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(json({ detail: [{ loc: ["body"], msg: "bad" }] }, 422)));
     await expect(buildDesign(P)).rejects.toMatchObject({ message: "Some values are not valid." });
   });

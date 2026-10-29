@@ -57,6 +57,21 @@ describe("ParamForm", () => {
     expect(screen.getByLabelText("Prongs").querySelectorAll("option")).toHaveLength(2);
   });
 
+  it("shows the allowed range next to each measurement, so users do not have to guess", () => {
+    render(<ParamForm {...base} onChange={vi.fn()} onSizeChange={vi.fn()} />);
+    expect(screen.getByLabelText("Band thickness")).toHaveAccessibleDescription("Allowed: 1.2 to 5 mm");
+    expect(screen.getByLabelText("Prong thickness")).toHaveAccessibleDescription("Allowed: 0.8 to 2 mm");
+    expect(screen.getByLabelText("Band width")).toHaveAccessibleDescription("Allowed: 1.5 to 8 mm");
+    expect(screen.getByLabelText("Stone size (round)")).toHaveAccessibleDescription("Allowed: 3 to 10 mm");
+    expect(screen.getByText("Supported: 14 to 24 mm inner diameter")).toBeInTheDocument();
+  });
+
+  it("the hints follow the chosen metal", () => {
+    const rules = { ...RULES, metals: { ...RULES.metals, gold_14k: { ...RULES.metals.gold_14k, max_band_thickness_mm: 4 } } };
+    render(<ParamForm {...base} rules={rules} form={{ ...DEFAULT_FORM, metal: "gold_14k" }} onChange={vi.fn()} onSizeChange={vi.fn()} />);
+    expect(screen.getByLabelText("Band thickness")).toHaveAccessibleDescription("Allowed: 1.2 to 4 mm");
+  });
+
   it("reports a changed number as a number", () => {
     const onChange = vi.fn();
     render(<ParamForm {...base} onChange={onChange} onSizeChange={vi.fn()} />);

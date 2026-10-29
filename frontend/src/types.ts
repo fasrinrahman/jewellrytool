@@ -65,6 +65,7 @@ export interface BuildResponse {
 
 export interface Rules {
   verified_by_jeweler: boolean;
+  ring_size_range_mm: [number, number];
   metals: Record<
     string,
     {
@@ -73,9 +74,14 @@ export interface Rules {
       min_prong_diameter_mm: number;
       min_band_thickness_mm: number;
       band_width_range_mm: [number, number];
+      max_band_thickness_mm: number;
+      max_prong_diameter_mm: number;
     }
   >;
-  stone_shapes: Record<string, { size_range_mm: [number, number]; prong_counts: number[] }>;
+  stone_shapes: Record<
+    string,
+    { size_range_mm: [number, number]; prong_counts: number[]; max_prong_coverage: number }
+  >;
   tolerances: Record<string, number>;
 }
 

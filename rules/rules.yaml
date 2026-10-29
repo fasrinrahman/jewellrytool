@@ -1,6 +1,8 @@
 # PLACEHOLDER VALUES. Not reviewed by a jeweler; do not treat as manufacturing advice.
 # Change a value here and the tool's behavior changes with no code edit (SRS FR-03).
 verified_by_jeweler: false
+# Inner diameter of the ring, roughly US size 3 to 15
+ring_size_range_mm: [14.0, 24.0]
 metals:
   silver_925:
     density_g_cm3: 10.36
@@ -8,21 +10,29 @@ metals:
     min_prong_diameter_mm: 0.8
     min_band_thickness_mm: 1.2
     band_width_range_mm: [1.5, 8.0]
+    max_band_thickness_mm: 5.0
+    max_prong_diameter_mm: 2.0
   gold_14k:
     density_g_cm3: 13.0
     min_wall_mm: 0.8
     min_prong_diameter_mm: 0.8
     min_band_thickness_mm: 1.2
     band_width_range_mm: [1.5, 8.0]
+    max_band_thickness_mm: 5.0
+    max_prong_diameter_mm: 2.0
   gold_18k:
     density_g_cm3: 15.5
     min_wall_mm: 0.8
     min_prong_diameter_mm: 0.8
     min_band_thickness_mm: 1.2
     band_width_range_mm: [1.5, 8.0]
+    max_band_thickness_mm: 5.0
+    max_prong_diameter_mm: 2.0
 stone_shapes:
   round:
     size_range_mm: [3.0, 10.0]
     prong_counts: [4, 6]
+    # Share of the stone's edge (girdle) that all prongs together may cover
+    max_prong_coverage: 0.35
 tolerances:
   stl_step_volume_pct: 0.5

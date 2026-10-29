@@ -8,7 +8,8 @@ import zipfile
 from pathlib import Path
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse, Response
 from .design_export import ExportRefused, export_design
 from .params import RingParams
 from .rules import load_rules
@@ -20,6 +21,15 @@ ORIGINS = os.environ.get("JEWELRY_CORS_ORIGINS",
 
 app = FastAPI(title="AI Jewelry Design Tool API")
 app.add_middleware(CORSMiddleware, allow_origins=ORIGINS, allow_methods=["*"], allow_headers=["*"])
+
+
+@app.exception_handler(RequestValidationError)
+async def invalid_request(_request, exc: RequestValidationError):
+    """Say where and what is wrong, never echo the input back. Echoing it crashed the server on
+    values such as Infinity (not valid JSON) and would reflect arbitrary text to the client."""
+    errors = [{"loc": [str(x) for x in e.get("loc", ())], "msg": e.get("msg", ""), "type": e.get("type", "")}
+              for e in exc.errors()]
+    return JSONResponse(status_code=422, content={"detail": errors})
 
 
 @app.get("/health")

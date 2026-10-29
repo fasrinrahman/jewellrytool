@@ -7,10 +7,11 @@ interface Props {
   onChange: (v: number) => void;
   unit?: string;
   step?: number;
+  hint?: string;
 }
 
 /** Keeps what the user is typing (for example "1.") separate from the number sent upstream. */
-export function NumberField({ id, label, value, onChange, unit = "mm", step = 0.1 }: Props) {
+export function NumberField({ id, label, value, onChange, unit = "mm", step = 0.1, hint }: Props) {
   const [text, setText] = useState(String(value));
   useEffect(() => {
     if (Number(text) !== value) setText(String(value));
@@ -24,6 +25,7 @@ export function NumberField({ id, label, value, onChange, unit = "mm", step = 0.
       <div className="input-row">
         <input
           id={id}
+          aria-describedby={hint ? `${id}-hint` : undefined}
           type="number"
           inputMode="decimal"
           step={step}
@@ -37,6 +39,11 @@ export function NumberField({ id, label, value, onChange, unit = "mm", step = 0.
         />
         {unit && <span className="unit">{unit}</span>}
       </div>
+      {hint && (
+        <span id={`${id}-hint`} className="muted small">
+          {hint}
+        </span>
+      )}
     </div>
   );
 }

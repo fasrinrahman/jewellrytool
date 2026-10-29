@@ -23,6 +23,9 @@ export function ParamForm({ rules, form, onChange, sizeInput, onSizeChange, size
   if (!rules) return <p className="muted">Loading design rules...</p>;
   const metals = Object.keys(rules.metals);
   const shape = rules.stone_shapes[form.stone_shape];
+  const metal = rules.metals[form.metal];
+  const range = (lo: number, hi: number) => `Allowed: ${lo} to ${hi} mm`;
+  const [sizeLo, sizeHi] = rules.ring_size_range_mm;
 
   return (
     <form className="form" onSubmit={(e) => e.preventDefault()} aria-label="Ring design">
@@ -79,15 +82,20 @@ export function ParamForm({ rules, form, onChange, sizeInput, onSizeChange, size
         ) : (
           sizes && <p className="muted">Inner diameter {sizes.mm} mm</p>
         )}
+        <p className="muted small">Supported: {sizeLo} to {sizeHi} mm inner diameter</p>
       </fieldset>
 
       <NumberField id="band_width" label="Band width" value={form.band_width_mm}
+        hint={metal && range(...metal.band_width_range_mm)}
         onChange={(v) => onChange({ band_width_mm: v })} />
       <NumberField id="band_thickness" label="Band thickness" value={form.band_thickness_mm}
+        hint={metal && range(metal.min_band_thickness_mm, metal.max_band_thickness_mm)}
         onChange={(v) => onChange({ band_thickness_mm: v })} />
       <NumberField id="stone_size" label="Stone size (round)" value={form.stone_size_mm}
+        hint={range(...shape.size_range_mm)}
         onChange={(v) => onChange({ stone_size_mm: v })} />
       <NumberField id="prong_diameter" label="Prong thickness" value={form.prong_diameter_mm}
+        hint={metal && range(metal.min_prong_diameter_mm, metal.max_prong_diameter_mm)}
         onChange={(v) => onChange({ prong_diameter_mm: v })} />
 
       <div className="field">
